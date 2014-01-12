@@ -1,11 +1,31 @@
 package pszty2;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.io.*;
+
+
+
 
 public class Layer
  {
+    private Layer nextLayer;
+    public void setNextLayer(Layer l)
+    {
+        nextLayer  = l;
+    }
+
+    private Layer previousLayer;
+    public void setPreviousLayer(Layer l)
+    {
+        previousLayer = l;
+    }
+
+     /**
+      * Type of neurons in layer, could be hidden layer or output layer.
+      */
+    private LAYER_TYPE LT;
+
      /**
       * List of nodes contained in specific layer
       */
@@ -36,11 +56,11 @@ public class Layer
       * @param noOfNodes Number of nodes created in this layer.
       * @exception java.lang.IllegalArgumentException
       */
-    public Layer(int inputCount, int noOfNodes)
+    public Layer(int inputCount, int noOfNodes, LAYER_TYPE LT)
     {
         this.inputCount = inputCount;
         this.noOfNodes = noOfNodes;
-
+        this.LT = LT;
         if(inputCount <= 0) throw new IllegalArgumentException();
 
         for(int i=0; i < noOfNodes; i++)
@@ -49,6 +69,8 @@ public class Layer
         }
 
     }
+
+
 
      /**
       * This imports input list calculated in previous layer. This function should be called by a previous layer after successful output calculation.
@@ -65,6 +87,43 @@ public class Layer
 
      }
 
+     /**
+      * This function calculates the layer output. It calls calculateX methods on each of its neurons(nodes) and combines it into an output vector and updates next layers input.
+      */
+     public void calculateOutput()
+     {
+         Iterator<Node> it = nodeList.iterator();
+         List<Double> l = new ArrayList<Double>();
+
+         if(LT == LAYER_TYPE.HIDDEN_LAYER)
+         {
+            while(it.hasNext())
+            {
+                 l.add(it.next().calculateHiddenOutput(inputList));
+            }
+
+            if(nextLayer != null)
+                nextLayer.importInputList(l);
+
+         }
+         else if(LT == LAYER_TYPE.OUTPUT_LAYER)
+         {
+             while(it.hasNext())
+             {
+                 l.add(it.next().calculateYOutput(inputList));
+             }
+
+         }
+
+
+
+     }
+
 
 
  }
+
+enum LAYER_TYPE
+{
+    HIDDEN_LAYER, OUTPUT_LAYER
+}
