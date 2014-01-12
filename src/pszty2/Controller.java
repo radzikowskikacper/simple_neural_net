@@ -1,6 +1,5 @@
 package pszty2;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class Controller
         {
             System.out.println( "File not found" );
         }
-        int[] a = {1, 0, 0, 1, 1};
+        int[] a = {1, 0, 0, 1, 0};
         in.applyPattern( a );
 
         layerList[0] = new Layer(numberOfInputs, neuronCount[0], LAYER_TYPE.HIDDEN_LAYER);
@@ -55,12 +54,13 @@ public class Controller
         }
         catch(IOException e)
         {
-            System.out.println("Mamy problem");
+            System.out.println("Koniec danych");
+            in.goToFirst();
+            FeedForward();
+            return;
         }
-        List<Double> inputValues = new ArrayList<Double>();
-        inputValues.addAll(row.subList(0, numberOfInputs));
 
-        layerList[0].importInputList(inputValues);
+        layerList[0].importInputList(row);
         for(int i=0; i < numberOfLayers; ++i)
         {
             layerList[i].calculateOutput();
