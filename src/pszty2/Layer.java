@@ -40,7 +40,7 @@ public class Layer
      /**
       * List of raw input from previous layer's output. When calculating nodes output, this has to be multiplied by weights.
       */
-    private List<Double> inputList = null;
+    private List<Double> inputList = new ArrayList<Double>();
 
 
      /**
