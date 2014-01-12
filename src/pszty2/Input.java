@@ -59,6 +59,11 @@ public class Input {
 		br.close();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public List<Double> getNextInput() throws IOException
 	{		
 		if(current_row >= rows)
@@ -78,9 +83,13 @@ public class Input {
 	public void goToFirst()
 	{
 		current_row = 0;
-	
 	}
 	
+	/**
+	 * 
+	 * @param pattern
+	 * @throws Exception
+	 */
 	public void applyPattern(short[] pattern) throws Exception
 	{
 		if(pattern.length > cols)
