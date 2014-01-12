@@ -75,6 +75,11 @@ public class Input {
 		return ret;
 	}
 	
+	public void begin()
+	{
+		current_row = 0;
+	}
+	
 	public void applyPattern(short[] pattern) throws Exception
 	{
 		if(pattern.length > cols)
