@@ -72,7 +72,7 @@ public class Node
      */
     private Double activationFunc( double sum )
     {
-        return Math.tanh( sum );
+        return 1/(1+Math.exp( -sum ));
     }
 
     /**
