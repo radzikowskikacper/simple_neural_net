@@ -78,6 +78,7 @@ public class Input {
 	public void begin()
 	{
 		current_row = 0;
+	
 	}
 	
 	public void applyPattern(short[] pattern) throws Exception
