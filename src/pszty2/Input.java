@@ -75,7 +75,7 @@ public class Input {
 		return ret;
 	}
 	
-	public void begin()
+	public void goToFirst()
 	{
 		current_row = 0;
 	
