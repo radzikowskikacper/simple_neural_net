@@ -40,16 +40,16 @@ public class Layer {
         Vector = new double[Node.length];
 
         for (int i=0; i < Node.length; i++)
-            Vector[i] = Node[i].Output;
+            Vector[i] = Node[i].getOutput();
 
         return (Vector);
     }
 
     public Layer (int NumberOfNodes, int NumberOfInputs) {
-        Node = new NODE[NumberOfNodes];
+        Node = new Node[NumberOfNodes];
 
         for (int i = 0; i < NumberOfNodes; i++)
-            Node[i] = new NODE(NumberOfInputs);
+            Node[i] = new Node(NumberOfInputs);
 
         Input = new double[NumberOfInputs];
     }
