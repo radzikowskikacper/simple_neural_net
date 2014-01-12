@@ -9,19 +9,19 @@ import java.util.List;
 
 public class Layer
  {
-    private Layer nextLayer = null;
+    private Layer nextLayer;
     public void setNextLayer(Layer l)
     {
         nextLayer  = l;
     }
 
-    private Layer previousLayer = null;
+    private Layer previousLayer;
     public void setPreviousLayer(Layer l)
     {
         previousLayer = l;
     }
 
-    private Double output = null;
+    private Double output;
     public Double getOutput()
     {
         return output;
@@ -34,13 +34,13 @@ public class Layer
      /**
       * List of nodes contained in specific layer
       */
-    private List<Node> nodeList = new ArrayList<Node>();
+    private List<Node> nodeList;
 
 
      /**
       * List of raw input from previous layer's output. When calculating nodes output, this has to be multiplied by weights.
       */
-    private List<Double> inputList = new ArrayList<Double>();
+    private List<Double> inputList;
 
 
      /**
@@ -67,7 +67,8 @@ public class Layer
         this.noOfNodes = noOfNodes;
         this.LT = LT;
         if(inputCount <= 0) throw new IllegalArgumentException();
-
+        nodeList = new ArrayList<Node>();
+        inputList = new ArrayList<Double>();
         for(int i=0; i < noOfNodes; i++)
         {
             nodeList.add(new Node(inputCount));
