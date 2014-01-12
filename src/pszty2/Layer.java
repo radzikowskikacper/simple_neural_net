@@ -9,18 +9,23 @@ import java.util.List;
 
 public class Layer
  {
-    private Layer nextLayer;
+    private Layer nextLayer = null;
     public void setNextLayer(Layer l)
     {
         nextLayer  = l;
     }
 
-    private Layer previousLayer;
+    private Layer previousLayer = null;
     public void setPreviousLayer(Layer l)
     {
         previousLayer = l;
     }
 
+    private Double output = null;
+    public Double getOutput()
+    {
+        return output;
+    }
      /**
       * Type of neurons in layer, could be hidden layer or output layer.
       */
@@ -111,6 +116,7 @@ public class Layer
              while(it.hasNext())
              {
                  l.add(it.next().calculateYOutput(inputList));
+                 output = l.get(0);
              }
 
          }
