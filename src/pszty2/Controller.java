@@ -1,6 +1,8 @@
 package pszty2;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,26 +14,26 @@ import java.util.List;
 public class Controller
 {
     final int numberOfLayers = 2;
-    final int NO_OF_INPUTS = 2;
+    final int numberOfInputs = 2;
     Layer[] layerList = new Layer[numberOfLayers];
     int[] neuronCount = {3, 1};
 
-    Input in = new Input();
+    private Input in;
 
     public Controller()
     {
-        short[] a = {1, 0, 0, 1, 1};
         try
         {
-            File f = new File("SN3.txt");
-            if(!f.exists()) System.out.println("Dupa");
-            in.LoadDataFromFile("SN3.txt");
-            in.applyPattern(a);
+            in = new Input("dane.txt");
         }
-        catch(Exception e)
-        {}
+        catch(FileNotFoundException e)
+        {
+            System.out.println( "File not found" );
+        }
+        int[] a = {1, 0, 0, 1, 1};
+        in.applyPattern( a );
 
-        layerList[0] = new Layer(NO_OF_INPUTS,neuronCount[0], LAYER_TYPE.HIDDEN_LAYER);
+        layerList[0] = new Layer(numberOfInputs, neuronCount[0], LAYER_TYPE.HIDDEN_LAYER);
 
         layerList[1] = new Layer(neuronCount[0], neuronCount[1], LAYER_TYPE.OUTPUT_LAYER);
 
@@ -46,16 +48,17 @@ public class Controller
     }
 
     public void FeedForward() throws Exception
-    {  List<Double> row = null;
+    {
+        List<Double> row = null;
         try{
           row  = in.getNextInput();
         }
-        catch(Exception e)
+        catch(IOException e)
         {
-            System.out.println("dupaaaa");
+            System.out.println("Mamy problem");
         }
         List<Double> inputValues = new ArrayList<Double>();
-        inputValues.addAll(row.subList(0, NO_OF_INPUTS));
+        inputValues.addAll(row.subList(0, numberOfInputs));
 
         layerList[0].importInputList(inputValues);
         for(int i=0; i < numberOfLayers; ++i)
@@ -79,7 +82,7 @@ public class Controller
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage() + " " + e.getStackTrace());
+            System.out.println("Chuj");
         }
     }
 
