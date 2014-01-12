@@ -46,7 +46,7 @@ public class Controller
 
     }
 
-    public void FeedForward() throws Exception
+    public void FeedForward() throws IOException
     {
         List<Double> row = null;
         try{
@@ -55,8 +55,6 @@ public class Controller
         catch(IOException e)
         {
             System.out.println("Koniec danych");
-            in.goToFirst();
-            FeedForward();
             return;
         }
 
