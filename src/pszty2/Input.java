@@ -9,24 +9,26 @@ import java.util.Vector;
 public class Input
 {
 
-	private Vector<Vector<Double>> data;
-	int currentRow;
-	int[] p;
+	private ArrayList<ArrayList<Double>> data;
+	private int currentRow;
+	private int[] p;
 
 
-    public Input(String fname) throws FileNotFoundException
+    public Input(String fname, int[] pattern) throws FileNotFoundException
     {
-        data = new Vector<Vector<Double>>();
+        data = new ArrayList<ArrayList<Double>>();
+		p = pattern;
         Scanner sc = new Scanner( new File( fname ) );
         while( sc.hasNextLine() )
         {
-            data.add( new Vector<Double>() );
+            data.add( new ArrayList<Double>() );
             String s = sc.nextLine();
             Scanner temp = new Scanner( s );
-            while( temp.hasNext() )
-            {
-                data.get(currentRow).add( Double.parseDouble( temp.next() ) );
-            }
+			for(int i = 0; i < p.length; ++i)
+				if(p[i] == 1)
+					data.get(currentRow).add( Double.parseDouble( temp.next() ) );
+				else
+					temp.next();
             ++currentRow;
         }
         currentRow = 0;
@@ -38,34 +40,39 @@ public class Input
 	 * @return
 	 * @throws IOException
 	 */
-	public List<Double> getNextInput() throws IOException
+	public ArrayList<Double> getNextInput() throws IOException
 	{		
 		if(currentRow >= data.size())
 			throw new IOException("End of rows");
-	
-		List<Double> ret = new ArrayList<Double>();
-		
-		for(int i = 0; i < p.length; ++i)
-			if(p[i] == 1)
-				ret.add(data.get(currentRow).get(i));
-		
-		++currentRow;
-		
-		return ret;
+
+		return data.get( currentRow++ );
 	}
 	
 	public void goToFirst()
 	{
 		currentRow = 0;
 	}
-	
-	/**
-	 * 
-	 * @param pattern
-	 * @throws Exception
-	 */
-	public void applyPattern(int[] pattern)
+
+	public void normalizeInput()
 	{
-		p = pattern;
+		for ( int i = 0; i < data.size(); ++i )
+		{
+			for ( int j = 0; j < data.get( i ).size(); ++j)
+			{
+				if ( data.get( i ).get( j ).equals( (double)1 ) || data.get( i ).get( j ).equals( (double)3 ) )
+				{
+					data.get( i ).set( j, 0d );
+				}
+				else
+				{
+					data.get( i ).set( j, 1d );
+				}
+			}
+		}
+	}
+
+	public int getNumberOfRows()
+	{
+		return data.size();
 	}
 }
